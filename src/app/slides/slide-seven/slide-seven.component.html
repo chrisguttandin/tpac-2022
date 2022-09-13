@@ -1,0 +1,10 @@
+<h2>Bug #1</h2>
+<ul>
+    <li>expectation test for Safari v12.1</li>
+</ul>
+<tpc-prism language="javascript" ngPreserveWhitespaces><!-- htmlmin:ignore -->// Bug #1
+it('should require the success callback', () =&gt; &#123;
+    expect(() =&gt; &#123;
+        audioContext.decodeAudioData(arrayBuffer);
+    }).to.throw(TypeError, 'Not enough arguments');
+});<!-- htmlmin:ignore --></tpc-prism>

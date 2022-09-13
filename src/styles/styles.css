@@ -1,0 +1,77 @@
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+:not(:root):fullscreen::backdrop {
+    background-color: #e4e8ec;
+}
+
+body {
+    background-color: #e4e8ec;
+    color: #c9242b;
+    font-family: 'Montserrat', Helvetica, Arial, sans-serif;
+    font-size: 8vw;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.wrapper {
+    font-size: 100%;
+    height: 75vw;
+    width: 100%;
+}
+
+.wrapper h1:first-child,
+.wrapper h2:first-child {
+    margin-top: 0;
+}
+
+@media (min-aspect-ratio: 4/3) {
+    body {
+        font-size: 10.666vh;
+    }
+
+    .wrapper {
+        height: 100%;
+        margin: 0 auto;
+        width: 133vh;
+    }
+}
+
+a {
+    color: inherit;
+}
+
+div,
+h3,
+li,
+p {
+    font-size: 50%;
+}
+
+h1 {
+    font-size: 100%;
+    letter-spacing: -0.005em;
+}
+
+h2 {
+    font-size: 80%;
+    letter-spacing: -0.005em;
+}
+
+ul {
+    margin: 0.5em 0;
+    padding: 0 0 0 0.5em;
+}
+
+li {
+    margin: 0.5em 0;
+}
+
+.token.comment {
+    color: #aab5c0;
+}

@@ -1,0 +1,14 @@
+h2,
+li {
+    text-align: center;
+}
+
+svg {
+    display: block;
+    margin: 0 auto;
+    width: 40%;
+}
+
+li {
+    list-style: none;
+}
