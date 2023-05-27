@@ -1,6 +1,5 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "defaultProject": "tpac-2022",
     "newProjectRoot": "projects",
     "projects": {
         "tpac-2022": {
