@@ -20,14 +20,14 @@ module.exports = (grunt) => {
     return {
         'csp-production': {
             files: {
-                'build/tpac-2022/index.html': ['build/tpac-2022/index.html']
+                './': ['build/tpac-2022/browser/**/index.html']
             },
             options: {
                 patterns: [
                     {
                         match: /<meta\shttp-equiv="content-security-policy"\s*\/?>/,
-                        replacement: () => {
-                            const html = fs.readFileSync('build/tpac-2022/index.html', 'utf8'); // eslint-disable-line node/no-sync
+                        replacement: (_1, _2, _3, filename) => {
+                            const html = fs.readFileSync(filename, 'utf8'); // eslint-disable-line node/no-sync
                             const regex = /<script[^>]*?>(?<script>.*?)<\/script>/gm;
                             const scriptHashes = [`'sha256-${computeHashOfString(ENABLE_STYLES_SCRIPT, 'sha256', 'base64')}'`];
 
@@ -76,7 +76,7 @@ module.exports = (grunt) => {
                         }
                     },
                     {
-                        match: /<link\srel="stylesheet"\shref="(?<filename>styles\.[\da-z]+\.css)"\scrossorigin="anonymous"\sintegrity="(?<hash>sha384-[\d+/A-Za-z]+=*)"(?<media>\smedia="print")?[^>]*>/g,
+                        match: /<link\srel="stylesheet"\shref="(?<filename>styles-[\dA-Z]+\.css)"\scrossorigin="anonymous"\sintegrity="(?<hash>sha384-[\d+/A-Za-z]+=*)"(?<media>\smedia="print")?[^>]*>/g,
                         replacement: (_, filename, hash, media) =>
                             `<link crossorigin="anonymous" href="${filename}" rel="stylesheet" integrity="${hash}"${media}>`
                     },
@@ -89,7 +89,7 @@ module.exports = (grunt) => {
         },
         'manifest': {
             files: {
-                './': ['build/tpac-2022/ngsw.json']
+                './': ['build/tpac-2022/browser/ngsw.json']
             },
             options: {
                 patterns: [
@@ -99,41 +99,14 @@ module.exports = (grunt) => {
                             grunt.file.expand({ cwd: 'build/tpac-2022', ext: extension }, `assets/${filename}.*`)[0]
                     },
                     {
-                        match: /\s*"\/tpac-2022(?:\/scripts)?\/runtime(?:-es(?:2015|5))?.[\da-z]*\.js",/g,
-                        replacement: ''
-                    },
-                    {
-                        match: /\s*"\/tpac-2022(?:\/scripts)?\/runtime(?:-es(?:2015|5))?.[\da-z]*\.js":\s*"[\da-z]+",/g,
-                        replacement: ''
-                    },
-                    {
                         // Replace the hash value inside of the hashTable for "/(index|start).html" because it was modified before.
                         match: /"\/tpac-2022\/(?<filename>index|start)\.html":\s*"[\da-z]+"/g,
                         replacement: (_, filename) => {
-                            return `"/tpac-2022/${filename}.html": "${computeHashOfFile(
-                                `build/tpac-2022/${filename}.html`,
+                            return `"/tpac-2022/browser/${filename}.html": "${computeHashOfFile(
+                                `build/tpac-2022/browser/${filename}.html`,
                                 'sha1',
                                 'hex'
                             )}"`;
-                        }
-                    }
-                ]
-            }
-        },
-        'runtime': {
-            files: {
-                './': ['build/tpac-2022/index.html']
-            },
-            options: {
-                patterns: [
-                    {
-                        match: /<script\ssrc="(?<filename>runtime(?:-es(?:2015|5))?.[\da-z]*\.js)"(?<moduleAttribute>\s(?:nomodule|type="module"))?\scrossorigin="anonymous"\sintegrity="sha384-[\d+/A-Za-z]+=*"><\/script>/g,
-                        replacement: (_, filename, moduleAttribute) => {
-                            if (moduleAttribute === undefined) {
-                                return `<script>${fs.readFileSync(`build/tpac-2022/${filename}`)}</script>`; // eslint-disable-line node/no-sync
-                            }
-
-                            return `<script${moduleAttribute}>${fs.readFileSync(`build/tpac-2022/${filename}`)}</script>`; // eslint-disable-line node/no-sync
                         }
                     }
                 ]
