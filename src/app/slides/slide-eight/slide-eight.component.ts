@@ -5,7 +5,6 @@ import { PrismComponent } from '../prism/prism.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [PrismComponent],
     selector: 'tpc-slide-eight',
-    standalone: true,
     templateUrl: './slide-eight.component.html'
 })
 export class SlideEightComponent {}
